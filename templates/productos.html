@@ -1,0 +1,149 @@
+{% extends './base.html' %}
+
+{% block tittle %} GestorStock {% endblock %}
+
+{% block customCss %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/productos.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<main>
+    <section style="display: flex;justify-content: center; margin-top: 4rem">
+        <div id="formularioEdicion" style="display:none; width: 15rem;">
+
+            <form action="{{ url_for('productos') }}" method="POST">
+                
+                <input type="hidden" id="edit_id" name="edit_id">
+        
+                <label for="edit_img">Imagen</label>
+                <input type="text" id="edit_img" name="edit_img" placeholder="Imagen">
+        
+                <label for="edit_nombre">Nombre:</label>
+                <input type="text" id="edit_nombre" name="edit_nombre" placeholder="Nombre de la categoría">
+        
+                <label for="edit_cantidad">Cantidad</label>
+                <input type="text" id="edit_cantidad" name="edit_cantidad" placeholder="Cantidad">
+        
+                <label for="edit_precio">Precio</label>
+                <input type="text" id="edit_precio" name="edit_precio" placeholder="Precio">
+        
+                <label for="edit_proveedor">Proveedor</label>
+                <input type="text" id="edit_proveedor" name="edit_proveedor" placeholder="Proveedor">
+        
+                <label for="edit_categoria">Categoria</label>
+                <input type="text" id="edit_categoria" name="edit_categoria" placeholder="Categoria">
+        
+                <button type="submit">Actualizar</button>
+                <button type="button" class="btn-cancelar" onclick="ocultarFormularioEdicion()">Cancelar</button>
+            </form>
+        </div>
+    </section>
+    <section class="formulario">
+    
+        <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="formulario-de-producto" onsubmit="return validacion();">
+            
+            <p style="border: none;margin: 0;padding: 0;"><button class="boton_quitar"><i class="fa-solid fa-xmark"></i></button></p>
+            
+
+            <h2 class="titulo-pedido">Agregar Producto</h2>
+            <label for="img">Imagen:</label>
+            <input type="text" id="img" name="img" placeholder="Ingrese la direccion de la imagen">
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ingrese nombre del producto">
+            <label id="mensaje-nombre"></label>
+
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" id="cantidad" name="cantidad" min="1" placeholder="Ingrese la cantidad">
+            <label id="mensaje-cantidad"></label>
+
+            <label for="precio">Precio:</label>
+            <input type="number" name="precio" id="precio" placeholder="Ingrese el precio">
+            <label id="mensaje-precio"></label>
+
+            <label for="proveedor">Seleccione el Proveedor del producto:</label>
+            <select name="proveedor" id="proveedor">
+                <option value="">Seleccione una Opcion</option>
+                {% for prov in proveedor %}
+                <option value="{{ prov.nombre }}">{{ prov.nombre }}</option>
+                {% endfor %}
+            </select>
+            <label id="mensaje-seleccion-prov"></label>
+
+
+            <label for="categoria">Seleccione la Categoria del producto:</label>
+            <select name="categoria" id="categoria">
+                <option value="">Seleccione una Opcion</option>
+                {% for cat in categoria %}
+                <option value="{{ cat.nombre }}">{{ cat.nombre }}</option>
+                {% endfor %}
+            </select>
+            <label id="mensaje-seleccion-cat"></label>
+
+            <input id="submit_prod" name="submit_prod" type="submit" value="Agregar">
+            
+        </form>
+    </section>
+    <h1>Productos disponibles</h1>
+    
+   
+    <div class="boton_agregar"><i class="fa-solid fa-plus" style="margin-right: 5px;"></i>Agregar Producto</div>
+    
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        <span class="mensaje1">{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+    </div>
+    
+    
+    <div class="contenedorPadreProd" id="productosContenedor">
+        {% if producto %}
+            {% for prod in producto %}
+                <div class="contenedorProd">
+                    <div class="imgContenedor">
+                        <img src="{{ prod.img }}" alt="imagen de producto" class="imgProductos">
+                    </div>
+                   
+                    <div style="border: 1px solid #303644; padding: 0.5rem;">
+                        <p><strong>Nombre:</strong> {{ prod.nombre }}</p>
+                        <p><strong>Cantidad:</strong> {{ prod.cantidad }}</p>
+                        <p><strong>Precio:</strong> {{ prod.precio }}</p>
+                        <p><strong>Proveedor:</strong> {{ prod.proveedor }}</p>
+                        <p><strong>Categoría:</strong> {{ prod.categoria }}</p>
+                    </div>
+           
+                    
+                    <td>
+                        <div style="display: flex; justify-content:space-evenly; background-color: #1c1c36; padding: 0.5rem;border: 2px solid #303644">
+                                <button type="button" onclick="mostrarFormularioEdicion('{{ prod.id }}', '{{ prod.nombre }}', '{{ prod.cantidad }}', '{{ prod.precio }}', '{{ prod.proveedor }}', '{{ prod.categoria }}', '{{ prod.img }}')" style="color:green;background-color:transparent;border:none;padding:0;cursor:pointer;padding-right:10px"><i class="fa-solid fa-pen"></i></button>
+                                <form action="{{ url_for('productos') }}" method="POST" style="display:inline;">
+                                <input type="hidden" name="delete_id" id="delete_id" value="{{ prod.id }}">
+                                <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar esta categoría?');" style="color:rgb(242, 93, 93);background-color:transparent;border:none;padding:0;cursor:pointer;"><i class="fa-solid fa-trash-can " ></i></button>
+                            </form>    
+                        </div>
+                    </td>
+                </div>
+                
+            {% endfor %}
+        {% else %}
+        <p style="padding:0.5rem; border: rgb(161, 32, 32) 2px solid;">No hay categorias disponibles</p>
+        {% endif %}
+        
+    </div>
+
+</main>
+
+{% block customJS %}
+<script src="{{ url_for('static', filename='js/productos.js') }}"></script>
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends './base.html' %}
+
+{% block tittle %} GestorStock {% endblock %}
+
+{% block customCss %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/categorias.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<main>
+
+
+    <section class="formulario">
+
+        <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="formulario-de-producto" onsubmit="return validacion();">
+            
+            <p style="border: none;margin: 0;padding: 0;"><button class="boton_quitar"><i class="fa-solid fa-xmark"></i></button></p>
+            
+            <h2 class="titulo-pedido">Agregar Categoria</h2>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ingrese nombre de Categoria">
+            <label id="mensaje-categoria"></label>
+
+            <label for="proveedor">Seleccione proveedor de productos:</label>
+            <select name="proveedor" id="proveedor">
+                <option value="">Seleccione una Opcion</option>
+                {% for prov in proveedor %}
+                <option value="{{ prov.nombre }}">{{ prov.nombre }}</option>
+                {% endfor %}
+            </select>
+            <label id="mensaje-seleccion-prov"></label>
+
+            <input id="submit" name="submit" type="submit" value="Agregar">
+            
+        </form>
+    </section>
+
+    <h1>Categorias disponibles</h1>
+
+  
+    <div class="boton_agregar"><i class="fa-solid fa-plus" style="margin-right: 5px;"></i>Agregar Categoria</div>
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        <span class="mensaje1">{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    <div class="cajaprov">
+        <div class="table-responsive">
+            <table class="cajaprov1">
+                <thead >
+                    <tr style="font-size: 16px; background-color: #1c1c36;opacity: 80%; color: aliceblue;">
+                        <th>Nombre</th>
+                        <th>Proveedor</th>
+                        <th>Acciones</th> 
+                    
+                    </tr>
+                </thead>
+                  
+                <tbody id="proveedoresContenedor">
+            {% if categoria %}
+                {% for cat in categoria %}
+                    <tr>
+                        <td>{{ cat.nombre }}</td>
+                        <td>{{ cat.proveedor }}</td>
+                        
+                        <td>
+                            <div style="display: flex; justify-content: space-around;">
+                                
+                                <button type="button" onclick="mostrarFormularioEdicion('{{ cat.id }}', '{{ cat.nombre }}', '{{ cat.proveedor }}')" style="color:green;background-color:transparent;border:none;padding:0;cursor:pointer;padding-right:10px"><i class="fa-solid fa-pen"></i></button>
+                                <form action="{{ url_for('categorias') }}" method="POST" style="display:inline;">
+                                    <input type="hidden" name="delete_id" id="delete_id" value="{{ cat.id }}">
+                                    <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar esta categoría?');" style="color:rgb(242, 93, 93);background-color:transparent;border:none;padding:0;cursor:pointer;"><i class="fa-solid fa-trash-can " ></i></button>
+                                </form> 
+                            </div>
+                        </td>
+                        
+                    </tr>
+                
+                {% endfor %}
+            {% else %}
+                <p style="margin-top: 4rem;padding:0.5rem; position: absolute; border: rgb(161, 32, 32) 2px solid;">No hay categorias disponibles</p>
+            {% endif %}
+
+                </tbody>
+                
+            </table>
+        </div>
+
+        <div id="formularioEdicion" style="display:none;">
+
+            <form action="{{ url_for('categorias') }}" method="POST">
+                
+                <input type="hidden" id="edit_id" name="edit_id">
+                <label for="edit_nombre">Nombre:</label>
+                <input type="text" id="edit_nombre" name="edit_nombre" placeholder="Nombre de la categoría">
+                <label for="edit_proveedor">Proveedor</label>
+                <input type="text" id="edit_proveedor" name="edit_proveedor" placeholder="Proveedor">
+                <button type="submit">Actualizar</button>
+                <button type="button" class="btn-cancelar" onclick="ocultarFormularioEdicion()">Cancelar</button>
+            </form>
+        </div>
+    </div>
+    
+</main>
+
+{% block customJS %}
+<script src="{{ url_for('static', filename='js/categorias.js') }}"></script>
+{% endblock %}
+
+{% endblock %}

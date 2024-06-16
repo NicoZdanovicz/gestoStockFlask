@@ -1,0 +1,78 @@
+{% extends './base1.html' %}
+
+{% block tittle %} Registro {% endblock %}
+
+{% block customCss %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<main>
+
+    <section class="formulario">
+    
+        <form action="#" method="POST" class="formulario-de-producto" onsubmit="return validacion()">
+
+            <h2 class="titulo-pedido">REGISTRO</h2>
+            
+            {% with messages = get_flashed_messages() %}
+        
+            {% if messages %}
+            <br>
+            {% for message in messages %}
+            <span class="mensaje">
+                <strong>⚠️{{ message }}</strong>
+            </span>
+            {% endfor %}
+            {% endif %}
+    
+            {% endwith %}
+
+            <div class="input-container">
+                <i class="fa-solid fa-envelope" style="top:25px"></i>
+                <input type="email" name="correo" id="correo" placeholder="Ingrese su correo">
+            </div>
+            <span id="mensaje-correo"></span>
+
+            <div class="input-container">
+                <i class="fa-solid fa-user" style="top:25px"></i>
+                <input type="text" id="usuario" name="usuario" placeholder="Ingrese el nombre de usuario">   
+            </div>
+            <span id="mensaje-usuario"></span>
+
+            <div class="input-container">
+                <i class="fa-solid fa-lock" style="top:25px"></i>
+                <input type="password" name="contraseña" id="contraseña" placeholder="Ingrese su contraseña">  
+            </div>
+            <span id="mensaje-contraseña"></span>
+
+            <div class="input-container">
+                <i class="fa-solid fa-lock" style="top:25px"></i>
+                <input type="password" name="confirmContraseña" id="confirmContraseña" placeholder="Ingrese su contraseña nuevamente"> 
+            </div>
+            <span id="mensaje-confirmContraseña" style="margin-bottom: 0.5rem;"></span>
+
+
+            <div style="font-size: 13px; font-weight: bold;">
+                <input type="checkbox" name="terminos" id="terminos">
+                <label for="terminos">Acepto los terminos y condiciones de uso</label>
+            </div>
+            <span id="mensaje-terminos" style="margin-top: 0.5rem;"></span>
+
+            <input type="submit" id="submit" name="submit" class="botonIniciar" value="Registrarse" >
+            <div style="text-align: center; margin-top: 0.5rem; font-size: 13px; font-weight: bold;">
+                <span>Ya tienes una cuenta?</span>
+                <a href="/login" >Iniciar Sesión</a>
+            </div>
+            
+        </form>
+    </section>
+    
+</main>
+
+{% block customJS %}
+<script src="{{ url_for('static', filename='js/registro.js') }}"></script>
+{% endblock %}
+
+{% endblock %}

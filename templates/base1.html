@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shorcut icon" href="{{ url_for('static', filename='img/logo1.png') }}">
+    <title>{% block tittle %}{% endblock %} </title>
+    <script src="https://kit.fontawesome.com/04f66e3763.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    {% block customCss %}
+    {% endblock %}
+</head>
+<body>
+
+
+    {% block body %}
+
+    {% endblock %}
+
+    <footer>
+        <div>
+            <h2 class="titulo-contacto">Contactate con nosotros</h2>
+            <form action="#" method="get" enctype="application/x-www-form-urlencoded"
+            class="formulario-de-contacto" onsubmit="return validacionFooter();">
+           
+            <label for="nombre-footer">Nombre y Apellido</label>
+            <input type="text" id="nombre-footer" name="nombre" placeholder="Ingrese nombre y apellido">
+            <span id="mensaje-nombre-footer"></span>
+        
+            <label for="correo-footer">Correo</label>
+            <input type="email" name="correo" id="correo-footer" placeholder="Ingrese su correo">
+            <span id="mensaje-correo-footer"></span>
+        
+            <label for="comentario-footer">Consulta</label>
+            <textarea name="comentario" id="comentario-footer" cols="30" rows="5" maxlength="1000"></textarea>
+            <span id="mensaje-comentario-footer"></span>
+            
+            <input id="submit-footer" name="submit" type="submit" value="Enviar">
+            </form>
+        </div>
+        <div class="footer-izquierda">
+        
+            <p class="footer_texto1" style="margin-top: 40px;">Si tenes dudas podes ponerte en contacto con nostros y <br> resolveremos tus dudas de forma inmediata</p>
+            <p class="footer_texto2" style="margin-top: 40px;">Seguinos en las redes</p>
+            <a href="#"><img src="{{ url_for('static', filename='img/icons8-instagram.svg') }}" alt="" class="img-redes"></a>
+            <a href="#"><img src="{{ url_for('static', filename='img/icons8-twitterx.svg') }}" alt=""  class="img-redes"></a>
+            <div style="margin-top: 40px;">
+                <p class="footer_texto3">© Codo a Codo 2024</p>
+                <p class="footer_texto4">Diseñado & Desarrollado por <a href="">Julian Borrello</a> | <a href="">Medina</a> | <a href="">Ramon Villarroel</a> | <a href="">Zdanovicz</a></p>
+            </div>
+        </div>
+        
+    </footer>
+
+    {% block customJS %}
+    {% endblock %}
+    <script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+</body>
+</html>
