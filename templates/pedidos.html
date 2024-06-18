@@ -42,33 +42,24 @@
         <input type="tel" name="telefono" id="telefono" placeholder="Ingrese su telefono">
         <label id="mensaje-telefono"></label>
 
-        <label for="categoria">Seleccione categoria del producto:</label>
-        <select id="categoria" name="categoria">
-            <option value="">Seleccione una opcion:</option>
-            <option value="Ropa">Ropa</option>
-            <option value="Joyeria">Joyeria</option>
-            <option value="Tecnologia">Tecnologia</option>
-            <option value="Otro">Otro</option>
-        </select>
-        <label id="mensaje-seleccion"></label>
-
         <label for="proveedor">Seleccione proveedor del producto:</label>
-        <select id="proveedor" name="proveedor">
-            <option value="">Seleccione una opcion:</option>
-            <option value="Nike">Nike</option>
-            <option value="Adidas">Adidas</option>
-            <option value="Kingston">Kingston</option>
-            <option value="Otro">Otro</option>
+        <select name="proveedor" id="proveedor" onchange="filtrarCategorias()">
+            <option value="">Seleccione una Opcion</option>
+            
         </select>
         <label id="mensaje-seleccion-prov"></label>
 
+        <label for="categoria">Seleccione categoria del producto:</label>
+        <select name="categoria" id="categoria" onchange="filtrarProductos()">
+            <option value="">Seleccione una Opcion</option>
+            
+        </select>
+        <label id="mensaje-seleccion"></label>
+
         <label for="producto">Seleccione el producto:</label>
-        <select id="producto" name="producto">
-            <option value="">Seleccione una opcion:</option>
-            <option value="Pelota">Pelota</option>
-            <option value="Consola">Consola</option>
-            <option value="Telefono">Telefono</option>
-            <option value="Otro">Otro</option>
+        <select name="producto" id="producto">
+            <option value="">Seleccione una Opcion</option>
+            
         </select>
         <label id="mensaje-seleccion-prod"></label>
 

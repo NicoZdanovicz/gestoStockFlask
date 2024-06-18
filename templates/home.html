@@ -15,7 +15,13 @@
     <ul class="tabla0">
         <li class="tabla1">
             <p>Cantidad de Productos<i class="fa-solid fa-truck" style="float: right;"></i></p>
-            <p id="cantidadProductos" style=" font-weight: bold; margin-bottom: 5px; font-size: 24px; color: #3CBADE; "></p>
+            <p id="cantidadProductos" style=" font-weight: bold; margin-bottom: 5px; font-size: 24px; color: #3CBADE; ">
+                {% if cantidadProductos %}
+                    {{cantidadProductos}}
+                {% else %}
+                    0
+                {% endif %}
+            </p>
             <div class="valor-barra">
                 <span class="valor-numerico" style="width: 70%;    background-color: #3CBADE;"></span>
             </div>
@@ -23,7 +29,13 @@
         </li>
         <li class="tabla1">
             <p>Pedidos <i class="fa-solid fa-shop" style="float: right;"></i></p>
-            <p id="pedidos" style=" font-weight: bold; margin-bottom: 5px; font-size: 24px; color: #e44747; ">140</p>
+            <p id="pedidos" style=" font-weight: bold; margin-bottom: 5px; font-size: 24px; color: #e44747; ">
+                {% if cantidadPedidos %}
+                    {{cantidadPedidos}}
+                {% else %}
+                    0
+                {% endif %}
+            </p>
             <div class="valor-barra">
                 <span class="valor-numerico" style="width: 40%;    background-color: #e44747;"></span>
             </div>
@@ -48,6 +60,13 @@
         <article class="titulo1">
             <h3>Cantidad de Ventas por Categoria</h3>
                 <div id="progressBarsContainer">
+                    <div style="display: none;" id="categorias">
+                        {% if ventasPorCategoria %}
+
+                        {{ventasPorCategoria}}
+
+                        {% endif %}
+                    </div>
                     <canvas id="miGrafico"></canvas>
                 </div>
         </article>
@@ -70,14 +89,30 @@
                     <table class="max_vendidos_1">
                         <thead>
                             <tr>
-                                <th>Codigo</th>
-                                <th>Titulo</th>
+                                <th>Producto</th>
                                 <th>Categoría</th>
-                                <th>Precio</th>
                                 <th>Ventas</th>
+                                <th>Precio</th>
                             </tr>
                         </thead>
-                        <tbody id="tablaBody"></tbody>
+
+                        <tbody id="tablaBody">
+                            {% if productos_mayor %}
+                                
+                                {% for key, value in productos_mayor.items() %}
+                                <tr>
+                                    <td>{{ value[0] }}</td>
+                                    <td>{{ value[1] }}</td>
+                                    <td>{{ value[2] }}</td>
+                                    <td>{{ value[3] }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td>No hay productos con más de 40 ventas</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
                     </table>
                 </div>
             </div>

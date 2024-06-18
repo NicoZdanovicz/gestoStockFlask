@@ -35,3 +35,8 @@ function validacionFooter(){
     // Devolver false si hay algún error para evitar el envío del formulario
     return !hayError;
 }
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav');
+menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active'); // Alternar la clase 'active' en el contenedor de enlaces
+});

@@ -1,4 +1,4 @@
-from .entities.Producto import Producto, Proveedor,  Categoria
+from .entities.Producto import Producto, Proveedor,  Categoria, Pedido
 
 class ModelProducto():
 
@@ -170,5 +170,20 @@ class ModelProducto():
         except Exception as ex:
             raise Exception(ex)
         
+    @classmethod
+    def get_pedido(self, db):
+        try:
+            cursor = db.connection.cursor()
+            sql = """ SELECT id, nombre, correo, telefono, categoria, proveedor, producto, cantidad FROM pedidos"""
+            cursor.execute(sql)
+            rows = cursor.fetchall()
+            pedido = []
+
+            for row in rows:
+                pedido.append(Pedido(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
+            return pedido
+            
+        except Exception as ex:
+            raise Exception(ex)
 
         

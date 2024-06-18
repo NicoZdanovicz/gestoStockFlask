@@ -1,5 +1,6 @@
 body{
     background-image:url(../img/fondop3.png);
+    background-size: cover;
 }
 
 
@@ -119,4 +120,11 @@ label {
     
     border-radius: 10px;
     opacity: 70%;
+}
+@media (max-width: 850px){
+    .formulario-de-producto{
+        background-color: transparent;
+        box-shadow: none;
+        border: none;
+    }
 }

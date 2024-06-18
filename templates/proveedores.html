@@ -18,16 +18,25 @@
             
             <h2 class="titulo-pedido">Agregar Proveedor</h2>
 
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Ingrese nombre del producto">
+            <div class="input-container">
+                <i class="fa-solid fa-handshake"></i>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ingrese nombre del producto">
+            </div>
             <label id="mensaje-nombre"></label>
 
-            <label for="telefono">Telefono</label>
-            <input type="tel" name="telefono" id="telefono" placeholder="Ingrese su telefono">
+            <div class="input-container">
+                <i class="fa-solid fa-phone"></i>
+                <label for="telefono">Telefono</label>
+                <input type="tel" name="telefono" id="telefono" placeholder="Ingrese su telefono">
+            </div>
             <label id="mensaje-telefono"></label>
 
-            <label for="correo">Correo</label>
-            <input type="email" name="correo" id="correo" placeholder="Ingrese su correo">
+            <div class="input-container">
+                <i class="fa-solid fa-envelope"></i>
+                <label for="correo">Correo</label>
+                <input type="email" name="correo" id="correo" placeholder="Ingrese su correo">
+            </div>
             <label id="mensaje-correo"></label>
 
             <input id="submit" name="submit" type="submit" value="Agregar">

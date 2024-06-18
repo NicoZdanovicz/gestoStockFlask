@@ -1,5 +1,6 @@
 body{
     background-image:url(../img/fondop3.png);
+    background-size: cover;
 }
 
 
@@ -31,6 +32,15 @@ body{
     margin-top: 10px;
     opacity: 70%;
 }
+
+@media (max-width: 850px){
+    .formulario-de-producto{
+        background-color: transparent;
+        box-shadow: none;
+        border: none;
+    }
+}
+
 
 ::placeholder{
     font-family: "Poppins", sans-serif;
@@ -119,4 +129,13 @@ label {
     
     border-radius: 10px;
     opacity: 70%;
+}
+.iconoLogin{
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+}
+.iconoLoginContainer{
+    display: flex;
+    justify-content: center;
 }

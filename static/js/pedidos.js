@@ -81,3 +81,72 @@ setTimeout(function() {
         setTimeout(function() { alert.style.display = "none"; }, 800);
     });
 }, 3000);
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    fetch('/pedidos-json')
+    .then(response => response.json())
+    .then(data => {
+
+        const productos = data.productos_json;
+        const proveedores = data.proveedores_json;
+        const categorias = data.categorias_json;
+
+        const selectProveedor = document.getElementById('proveedor');
+        const selectCategoria = document.getElementById('categoria');
+        const selectProducto = document.getElementById('producto');
+
+        console.log('Productos:', productos);
+        console.log('Proveedores:', proveedores);
+        console.log('Categorias:', categorias);
+
+        // Limpiar selects antes de agregar opciones
+        selectProveedor.innerHTML = '<option value="">Seleccione un Proveedor</option>';
+        selectCategoria.innerHTML = '<option value="">Seleccione una Categoria</option>';
+        selectProducto.innerHTML = '<option value="">Seleccione un Producto</option>';
+
+        console.log('ProveedorSeleccionado:', selectProveedor);
+        // Cargar opciones de proveedores
+        Object.values(proveedores).forEach(proveedor => {
+            const option = document.createElement('option');
+            option.value = proveedor;
+            option.text = proveedor;
+            selectProveedor.appendChild(option);
+        });
+            
+        // Función para filtrar categorías basadas en el proveedor seleccionado
+        window.filtrarCategorias = function() {
+            const proveedorSeleccionado = selectProveedor.value;
+            selectCategoria.innerHTML = '<option value="">Seleccione una Categoria</option>';
+
+            for (const cat in categorias) {
+                if (categorias[cat] === proveedorSeleccionado) {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.text = cat;
+                    selectCategoria.appendChild(option);
+                }
+            }
+
+            // Limpiar productos cuando se cambia el proveedor
+            selectProducto.innerHTML = '<option value="">Seleccione un Producto</option>';
+        };
+
+        // Función para filtrar productos basados en el proveedor y la categoría seleccionados
+        window.filtrarProductos = function() {
+            const proveedorSeleccionado = selectProveedor.value;
+            const categoriaSeleccionada = selectCategoria.value;
+            selectProducto.innerHTML = '<option value="">Seleccione un Producto</option>';
+
+            for (const prod in productos) {
+                if (productos[prod].proveedor === proveedorSeleccionado && productos[prod].categoria === categoriaSeleccionada) {
+                    const option = document.createElement('option');
+                    option.value = prod;
+                    option.text = prod;
+                    selectProducto.appendChild(option);
+                }
+            }
+        };
+    })
+    .catch(error => console.error('Error al cargar datos:', error));
+});

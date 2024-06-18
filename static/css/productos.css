@@ -268,3 +268,67 @@ table th, table td {
     font-size: 14px;
     margin-top: 10px;
 }
+/*--------------------------------------------------------------------*/
+
+.contenedorPadreProd {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    justify-content: space-between;
+    
+}
+
+.contenedorProd {
+    flex: 0 0 calc(33.33% - 20px);
+    margin-bottom: 20px; 
+    text-align: start;
+    border-radius: 8px;
+    color: #ccc;
+    background-color: #1f1f31;
+    border: 1px solid #303644;
+    filter: drop-shadow(0 8px 8px rgba(97, 94, 94, 0.1));
+    opacity: 86%;
+    padding: 0.5rem;
+}
+
+.imgContenedor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    
+}
+
+.contenedorProd img {
+    align-items: center;
+    justify-content: center;
+    max-width: 200px; 
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: #f8f9fa 2px solid;
+}
+
+.contenedorProd i, #proveedoresContenedor i, #categoriaContenedor i{
+    font-size: 20px;
+}
+
+.contenedorProd .fa-pen:hover, #proveedoresContenedor .fa-pen:hover, #categoriaContenedor .fa-pen:hover{
+    color: greenyellow;
+}
+
+.contenedorProd .fa-trash-can:hover, #proveedoresContenedor .fa-trash-can:hover, #categoriaContenedor .fa-trash-can:hover{
+    color: red;
+}
+
+.contenedorProd:hover {
+    transform: rotateY(10deg); 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Sombra para efecto de elevación */
+}
+
+.contenedorProd p {
+    margin: 5px 0;
+}
+
+
+/*--------------------------------------------------------------------*/

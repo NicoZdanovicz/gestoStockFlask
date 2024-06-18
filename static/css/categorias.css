@@ -57,6 +57,7 @@
     border-radius: 8px;
     z-index: 100;
     margin-top: 10px;
+    width: 23rem;
 }
 
 
@@ -74,7 +75,6 @@ label {
 #nombre, #proveedor{
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
-    padding: 0.5rem;
     border: none;
     border: 2px solid #303644;
     background-color: #d7d7e9;
@@ -82,25 +82,24 @@ label {
 }
 
 
-
-#submit {
-        width: 25vw;
-        height: 2rem;
-        margin-top: 20px;
-        color: #ffffff;
-        background-color:#17a1a3;
-        border: none;
-        border-radius: 10px;
-        font-size: 15px;
-        padding: 5px;
-        cursor: pointer;
-        transition: 0.4s;
-        font-family: "Poppins", sans-serif;
+#submit_cat {
+    height: 2rem;
+    margin-top: 20px;
+    color: #ffffff;
+    background-color:#17a1a3;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.4s;
+    font-family: "Poppins", sans-serif;
 }
 
-#submit:hover{
-    background-color:#067c4f;
+#submit_cat:hover{
+background-color:#067c4f;
 }
+
 
 
 #mensaje-categoria, #mensaje-seleccion-prov{
@@ -249,4 +248,28 @@ table th, table td {
     border-radius: 4px;
     font-size: 14px;
     margin-top: 10px;
+}
+.input-container {
+    position: relative;
+}
+
+.input-container i {
+    position: absolute;
+    left: 10px;
+    top: 60%;
+    transform: translateY(-50%);
+    color: rgb(56, 55, 55);
+}
+
+.input-container input, .input-container select {
+    width: 100%;
+    padding: 10px 10px 10px 35px; /* Ajuste del padding para dejar espacio al icono */
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+@media (max-width: 560px) {
+    .formulario-de-producto{
+        width: 60%;
+    }
 }

@@ -48,10 +48,7 @@ label {
 
 }
 
-#cantidad{
-    width: 332px;
-    height: 10px;
-}
+
 
 #categoria, #producto, #proveedor{
     width: 358px;
@@ -84,6 +81,9 @@ label {
     background-size: 8%;
     padding: 10px 20px 5px 35px;
     background-position: left center;
+}
+#cantidad{
+    padding: 10px 20px 5px 35px;
 }
 
 #nombre:active{
@@ -165,4 +165,21 @@ label {
 
 .closebtn:hover {
     color: black;
+}
+
+@media(max-width: 500px){
+    .formulario-de-producto{
+        background-color: transparent;
+        box-shadow: none;
+        border: none;
+    }
+    #nombre, #correo, #telefono {
+        width: 80%;
+    }
+    #cantidad{
+        width: 77%;
+    }
+    #proveedor, #categoria, #producto{
+        width: 100%;
+    }
 }

@@ -15,7 +15,9 @@
         <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="formulario-de-producto">
 
             <h2 class="titulo-pedido">INICIAR SESIÓN</h2>
-
+            <div class="iconoLoginContainer">
+                <img src="{{ url_for('static', filename='img/logoinicio.png') }}" alt="" class="iconoLogin">
+            </div>
             {% with messages = get_flashed_messages() %}
             {% if messages %}
             <br>

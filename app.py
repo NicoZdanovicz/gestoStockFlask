@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, flash, redirect
+from flask import Flask, render_template, request, url_for, flash, redirect, jsonify
 from config import config
 from flask_login import LoginManager, login_user, login_required, logout_user, logout_user
 
@@ -42,8 +42,107 @@ def login():
 @app.route('/home')
 @login_required
 def home():
-    return render_template('home.html')
 
+    try:
+        pedido = ModelProducto.get_pedido(db)
+        producto = ModelProducto.get_producto(db)
+    except Exception as ex:
+        flash('Error al obtener productos: {}'.format(ex))
+        pedido = []
+        producto = []
+
+    productos=[]
+    productos_mayor={}
+    price = []
+    cont = 0
+  
+
+    for prod in pedido:
+        productos.append(prod)
+
+    for produ in producto:
+        price.append(produ)
+
+    cantidadProductos = len(price)
+    cantidadPedidos = len(productos)
+
+    for prod in productos:
+        
+        if prod.cantidad >= 40:
+            productos_mayor[cont] = [prod.producto, prod.categoria, prod.cantidad]
+            cont += 1
+
+    for i in range(cont):
+        for prices in price:
+            if productos_mayor[i][0] == prices.nombre:
+                productos_mayor[i].append(prices.precio)
+    
+    
+
+    return render_template('home.html', productos_mayor=productos_mayor, cantidadProductos=cantidadProductos, cantidadPedidos=cantidadPedidos)
+
+@app.route('/datos-json', methods=['GET'])
+@login_required
+def obtener_datos_json():
+
+    try:
+        pedido = ModelProducto.get_pedido(db)
+        producto = ModelProducto.get_producto(db)
+    except Exception as ex:
+        flash('Error al obtener productos: {}'.format(ex))
+        pedido = []
+        producto = []
+
+    productos=[]
+    productos_ingresos={}
+    price = []
+    cont = 0
+    ventasPorCategoria = {}
+    ingresosPorCategoria = {}
+
+    for prod in pedido:
+        productos.append(prod)
+
+    for produ in producto:
+        price.append(produ)
+
+    for prod in productos:
+        
+        productos_ingresos[cont] = [prod.producto, prod.categoria, prod.cantidad]
+        cont += 1
+
+        if prod.categoria in ventasPorCategoria:
+            ventasPorCategoria[prod.categoria] += prod.cantidad
+        else:
+            ventasPorCategoria[prod.categoria] = prod.cantidad
+
+    for i in range(cont):
+        for prices in price:
+            if productos_ingresos[i][0] == prices.nombre:
+                productos_ingresos[i].append(prices.precio)
+
+    # Calcular ingresos por categoría
+    for key, value in productos_ingresos.items():
+        
+        categoria = value[1]  # índice 1 es la categoría
+        cantidad_vendida = value[2]  # índice 2 es la cantidad vendida
+        precio = value[3]  # índice 3 es el precio del producto
+
+        ingreso_producto = cantidad_vendida * precio
+
+        if categoria in ingresosPorCategoria:
+            ingresosPorCategoria[categoria] += ingreso_producto
+        else:
+            ingresosPorCategoria[categoria] = ingreso_producto
+
+    ingresosTotales = sum(ingresosPorCategoria.values())
+    data = {
+        'ventasPorCategoria': ventasPorCategoria,
+        'ingresosPorCategoria': ingresosPorCategoria,
+        'ingresosTotales': ingresosTotales
+    }
+
+    return jsonify(data)
 
 @app.route('/productos', methods=['POST', 'GET'])
 @login_required
@@ -217,7 +316,7 @@ def pedidos():
         producto = request.form['producto']
         cantidad = request.form['cantidad']
 
-        pedido = Pedido(nombre, correo, telefono, categoria, proveedor, producto, cantidad)
+        pedido = Pedido(0, nombre, correo, telefono, categoria, proveedor, producto, cantidad)
 
         try:
             ModelProducto.pedido(db, pedido)
@@ -226,7 +325,45 @@ def pedidos():
         except Exception as ex:
             flash('Error al registrar pedido')
             return render_template('pedidos.html')
-    return render_template('pedidos.html')
+    try:
+        proveedor = ModelProducto.get_proveedor(db)
+        categoria = ModelProducto.get_categoria(db)
+        producto = ModelProducto.get_producto(db)
+    except Exception as ex:
+        flash('Error al obtener proveedores: {}'.format(ex))
+        proveedor = []
+        categoria = []
+        producto = []
+
+    return render_template('pedidos.html', proveedor=proveedor, categoria=categoria, producto=producto)
+
+@app.route('/pedidos-json', methods=['GET'])
+@login_required
+def obtener_datos_pedidos():
+    try:
+        proveedor = ModelProducto.get_proveedor(db)
+        categoria = ModelProducto.get_categoria(db)
+        producto = ModelProducto.get_producto(db)
+
+        productos_json = {p.nombre: {'categoria': p.categoria, 'precio': p.precio, 'proveedor': p.proveedor} for p in producto}
+        proveedores_json = {i: p.nombre for i, p in enumerate(proveedor)}
+        categorias_json = {c.nombre: c.proveedor for c in categoria}
+
+        data = {
+            'proveedores_json': proveedores_json,
+            'categorias_json': categorias_json,
+            'productos_json': productos_json
+        }
+
+        return jsonify(data)
+    
+    except Exception as ex:
+        flash('Error al obtener pedidos: {}'.format(ex))
+        proveedor = []
+        categoria = [] 
+        producto = []
+
+ 
 
 @app.route('/registro', methods=['POST', 'GET'])
 def registro():

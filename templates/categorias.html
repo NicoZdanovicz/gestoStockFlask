@@ -19,20 +19,26 @@
             
             <h2 class="titulo-pedido">Agregar Categoria</h2>
 
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Ingrese nombre de Categoria">
+            <div class="input-container">
+                <i class="fa-solid fa-file-signature"></i>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ingrese nombre de Categoria">
+            </div>
             <label id="mensaje-categoria"></label>
 
-            <label for="proveedor">Seleccione proveedor de productos:</label>
-            <select name="proveedor" id="proveedor">
+            <div class="input-container">
+                <i class="fa-solid fa-handshake"></i>
+                <label for="proveedor">Seleccione proveedor de productos:</label>
+                <select name="proveedor" id="proveedor">
                 <option value="">Seleccione una Opcion</option>
                 {% for prov in proveedor %}
                 <option value="{{ prov.nombre }}">{{ prov.nombre }}</option>
                 {% endfor %}
             </select>
+            </div>
             <label id="mensaje-seleccion-prov"></label>
 
-            <input id="submit" name="submit" type="submit" value="Agregar">
+            <input id="submit_cat" name="submit" type="submit" value="Agregar">
             
         </form>
     </section>

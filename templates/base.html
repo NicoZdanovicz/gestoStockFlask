@@ -15,18 +15,18 @@
 <body>
 
     <header >
-
+        <h4 class="content" >
+            <p class="parrafo">Bienvenido, </p> 
+            <p class="parrafo">{{current_user.usuario}}!</p>
+        </h4>
         <div class="header">
     
             <a href="./home"><div class="logo"><img src="{{ url_for('static', filename='img/logo1.png') }}" alt="Logo Sitio Web"><p class="nombrelogo">GestorStock</p></div></a>
             
-            <h4 class="content" >
-                <p class="parrafo">Bienvenido, </p> 
-                <p class="parrafo">{{current_user.usuario}}!</p>
-            </h4>
+            
            
-            <a href="{{ url_for('logout') }}" class="sesion"> Cerrar Sesión <i class="fa-solid fa-right-from-bracket"></i></a> 
-        
+            <a href="{{ url_for('logout') }}" class="sesion"> Cerrar Sesión <i class="fa-solid fa-right-from-bracket" style="color: rgb(202, 116, 116);"></i></a> 
+        </div>
     </header>
 
     <nav>
@@ -76,7 +76,7 @@
             <a href="#"><img src="{{ url_for('static', filename='img/icons8-twitterx.svg') }}" alt=""  class="img-redes"></a>
             <div style="margin-top: 40px;">
                 <p class="footer_texto3">© Codo a Codo 2024</p>
-                <p class="footer_texto4">Diseñado & Desarrollado por <a href="">Julian Borrello</a> | <a href="">Medina</a> | <a href="">Ramon Villarroel</a> | <a href="">Zdanovicz</a></p>
+                <p class="footer_texto4">Diseñado & Desarrollado por <a href="">Julian Borrello</a> | <a href="">Medina</a> | <a href="">Ramon Villarroel</a> | <a href="https://www.linkedin.com/in/nicolas-zdanovicz-01923523b/">Zdanovicz</a></p>
             </div>
         </div>
         

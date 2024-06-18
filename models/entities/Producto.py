@@ -22,7 +22,8 @@ class Categoria():
         self.proveedor = proveedor
 
 class Pedido():
-    def __init__(self, nombre, correo, telefono, categoria, proveedor, producto, cantidad) -> None:
+    def __init__(self,id, nombre, correo, telefono, categoria, proveedor, producto, cantidad) -> None:
+        self.id = id
         self.nombre = nombre
         self.correo = correo
         self.telefono = telefono
