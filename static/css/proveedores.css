@@ -190,9 +190,15 @@ table th, table td {
     text-align: left;
 }
 
+.formularioEditpadre{
+    display: flex;
+    justify-content: center; 
+    margin-top: 1rem;
+}
+
 /* Estilos para el formulario de edición */
 #formularioEdicion {
-    position: absolute;
+    position: fixed;
     background-color: #1c1c36;
     padding: 20px;
     border-radius: 4px;

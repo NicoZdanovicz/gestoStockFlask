@@ -1,16 +1,23 @@
 from flask import Flask, render_template, request, url_for, flash, redirect, jsonify
 from config import config
-from flask_login import LoginManager, login_user, login_required, logout_user, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, logout_user, current_user
 
 from models.ModelUser import ModelUser
 from models.ModelProducto import ModelProducto
 from models.entities.User import User, Register
 from models.entities.Producto import Producto, Proveedor,  Categoria, Pedido
-from flask_mysqldb import MySQL
+import mysql.connector
+
 
 app = Flask(__name__)
+app.config.from_object(config['development'])
+db = mysql.connector.connect(
+        host=app.config['MYSQL_HOST'],
+        user=app.config['MYSQL_USER'],
+        password=app.config['MYSQL_PASSWORD'],
+        database=app.config['MYSQL_DB']
+    )
 
-db = MySQL(app)
 login_manager_app = LoginManager(app)
 
 @login_manager_app.user_loader
@@ -44,8 +51,8 @@ def login():
 def home():
 
     try:
-        pedido = ModelProducto.get_pedido(db)
-        producto = ModelProducto.get_producto(db)
+        pedido = ModelProducto.get_pedido(db, current_user.id)
+        producto = ModelProducto.get_producto(db, current_user.id)
     except Exception as ex:
         flash('Error al obtener productos: {}'.format(ex))
         pedido = []
@@ -86,8 +93,8 @@ def home():
 def obtener_datos_json():
 
     try:
-        pedido = ModelProducto.get_pedido(db)
-        producto = ModelProducto.get_producto(db)
+        pedido = ModelProducto.get_pedido(db, current_user.id)
+        producto = ModelProducto.get_producto(db, current_user.id)
     except Exception as ex:
         flash('Error al obtener productos: {}'.format(ex))
         pedido = []
@@ -115,7 +122,7 @@ def obtener_datos_json():
             ventasPorCategoria[prod.categoria] += prod.cantidad
         else:
             ventasPorCategoria[prod.categoria] = prod.cantidad
-
+    
     for i in range(cont):
         for prices in price:
             if productos_ingresos[i][0] == prices.nombre:
@@ -124,6 +131,9 @@ def obtener_datos_json():
     # Calcular ingresos por categoría
     for key, value in productos_ingresos.items():
         
+        if len(value) < 4:
+            productos_ingresos[key].append(0)
+            
         categoria = value[1]  # índice 1 es la categoría
         cantidad_vendida = value[2]  # índice 2 es la cantidad vendida
         precio = value[3]  # índice 3 es el precio del producto
@@ -166,7 +176,7 @@ def productos():
             proveedor = request.form['edit_proveedor']
             categoria = request.form['edit_categoria']
             img = request.form['edit_img']
-            producto = Producto(id = id, nombre = nombre, cantidad = cantidad, precio = precio, proveedor = proveedor, categoria = categoria, img = img)
+            producto = Producto(id = id, nombre = nombre, cantidad = cantidad, precio = precio, proveedor = proveedor, categoria = categoria, idusuario = current_user.id , img = img)
             try:
                 ModelProducto.update_producto(db, producto)
                 flash('Producto actualizado con éxito')
@@ -182,7 +192,7 @@ def productos():
             categoria = request.form['categoria']
             img = request.form['img']
 
-            producto = Producto(0, nombre, cantidad, precio, proveedor, categoria, img)
+            producto = Producto(0, nombre, cantidad, precio, proveedor, categoria, current_user.id, img)
 
             try:
                 ModelProducto.producto(db, producto)
@@ -193,9 +203,9 @@ def productos():
             return redirect('productos')
     
     try:
-        producto = ModelProducto.get_producto(db)
-        categoria = ModelProducto.get_categoria(db)
-        proveedor = ModelProducto.get_proveedor(db)
+        producto = ModelProducto.get_producto(db, current_user.id)
+        categoria = ModelProducto.get_categoria(db, current_user.id)
+        proveedor = ModelProducto.get_proveedor(db, current_user.id)
     except Exception as ex:
         flash('Error al obtener productos: {}'.format(ex))
         producto = []
@@ -221,8 +231,7 @@ def categorias():
         elif 'edit_id' in request.form:  # Detecta si es una solicitud de edición
             id = request.form['edit_id']
             nombre = request.form['edit_nombre']
-            proveedor = request.form['edit_proveedor']
-            categoria = Categoria(id=id, nombre=nombre, proveedor=proveedor)
+            categoria = Categoria(id=id, nombre=nombre, idusuario=current_user.id)
             try:
                 ModelProducto.update_categoria(db, categoria)
                 flash('Categoría actualizada con éxito')
@@ -232,8 +241,7 @@ def categorias():
 
         else:                                   # Si no es ninguna de las anteriores, es una solicitud de cargar
             nombre = request.form['nombre']
-            proveedor = request.form['proveedor']
-            categoria = Categoria(0,nombre, proveedor)
+            categoria = Categoria(0,nombre, current_user.id)
 
             try:
                 ModelProducto.categoria(db, categoria)
@@ -244,14 +252,12 @@ def categorias():
             return redirect('categorias')
     
     try:
-        categoria = ModelProducto.get_categoria(db)
-        proveedor = ModelProducto.get_proveedor(db)
+        categoria = ModelProducto.get_categoria(db, current_user.id)
     except Exception as ex:
         flash('Error al obtener categoria: {}'.format(ex))
         categoria = []
-        proveedor = []
 
-    return render_template('categorias.html', categoria=categoria, proveedor=proveedor)
+    return render_template('categorias.html', categoria=categoria)
 
 
 @app.route('/proveedores', methods=['POST', 'GET'])
@@ -272,7 +278,7 @@ def proveedores():
             nombre = request.form['edit_nombre']
             telefono = request.form['edit_telefono']
             correo = request.form['edit_correo']
-            proveedor = Proveedor(id=id, nombre=nombre, telefono=telefono, correo=correo)
+            proveedor = Proveedor(id=id, nombre=nombre, telefono=telefono, correo=correo, idusuario=current_user.id)
             try:
                 ModelProducto.update_proveedor(db, proveedor)
                 flash('Proveedor actualizado con éxito')
@@ -285,7 +291,7 @@ def proveedores():
             telefono = request.form['telefono']
             correo = request.form['correo']
 
-            proveedor = Proveedor(0, nombre, telefono, correo)
+            proveedor = Proveedor(0, nombre, telefono, correo, current_user.id)
 
             try:
                 ModelProducto.proveedor(db, proveedor)
@@ -296,7 +302,7 @@ def proveedores():
             return redirect('proveedores')
     
     try:
-        proveedor = ModelProducto.get_proveedor(db)
+        proveedor = ModelProducto.get_proveedor(db, current_user.id)
     except Exception as ex:
         flash('Error al obtener proveedores: {}'.format(ex))
         proveedor = []
@@ -316,7 +322,7 @@ def pedidos():
         producto = request.form['producto']
         cantidad = request.form['cantidad']
 
-        pedido = Pedido(0, nombre, correo, telefono, categoria, proveedor, producto, cantidad)
+        pedido = Pedido(0, nombre, correo, telefono, categoria, proveedor, producto, cantidad, current_user.id)
 
         try:
             ModelProducto.pedido(db, pedido)
@@ -325,29 +331,32 @@ def pedidos():
         except Exception as ex:
             flash('Error al registrar pedido')
             return render_template('pedidos.html')
-    try:
-        proveedor = ModelProducto.get_proveedor(db)
-        categoria = ModelProducto.get_categoria(db)
-        producto = ModelProducto.get_producto(db)
-    except Exception as ex:
-        flash('Error al obtener proveedores: {}'.format(ex))
-        proveedor = []
-        categoria = []
-        producto = []
+    
 
-    return render_template('pedidos.html', proveedor=proveedor, categoria=categoria, producto=producto)
+    return render_template('pedidos.html')
 
 @app.route('/pedidos-json', methods=['GET'])
 @login_required
 def obtener_datos_pedidos():
     try:
-        proveedor = ModelProducto.get_proveedor(db)
-        categoria = ModelProducto.get_categoria(db)
-        producto = ModelProducto.get_producto(db)
+        proveedor = ModelProducto.get_proveedor(db, current_user.id)
+        categoria = ModelProducto.get_categoria(db, current_user.id)
+        producto = ModelProducto.get_producto(db, current_user.id)
 
-        productos_json = {p.nombre: {'categoria': p.categoria, 'precio': p.precio, 'proveedor': p.proveedor} for p in producto}
+        productos_json = {}
+        for p in producto:
+            if p.nombre in productos_json:
+                # Si el producto ya existe en el diccionario, agregar la información adicional
+                productos_json[p.nombre].append({'categoria': p.categoria, 'precio': p.precio, 'proveedor': p.proveedor})
+            else:
+                # Si es la primera vez que se encuentra el producto, crear una nueva entrada
+                productos_json[p.nombre] = [{'categoria': p.categoria, 'precio': p.precio, 'proveedor': p.proveedor}]
+
+
+        
         proveedores_json = {i: p.nombre for i, p in enumerate(proveedor)}
-        categorias_json = {c.nombre: c.proveedor for c in categoria}
+        
+        categorias_json = {i: c.nombre for i, c in enumerate(categoria)}
 
         data = {
             'proveedores_json': proveedores_json,
@@ -358,10 +367,7 @@ def obtener_datos_pedidos():
         return jsonify(data)
     
     except Exception as ex:
-        flash('Error al obtener pedidos: {}'.format(ex))
-        proveedor = []
-        categoria = [] 
-        producto = []
+        return jsonify({'error': str(ex)}), 500
 
  
 
@@ -394,7 +400,7 @@ def status_404(error):
     return "<h1>La pagina a la que intentas acceder no existe</h1> ", 404
 
 if __name__ == '__main__':
-    app.config.from_object(config['development'])
+    
     app.register_error_handler(401, status_401)
     app.register_error_handler(404, status_404)
-    app.run(port=5000)
+    app.run()

@@ -9,7 +9,7 @@
 {% block body %}
 
 <main>
-    <section style="display: flex;justify-content: center; margin-top: 4rem">
+    <section class="formularioEditpadre">
         <div id="formularioEdicion" style="display:none; width: 15rem;">
 
             <form action="{{ url_for('productos') }}" method="POST">
@@ -39,6 +39,7 @@
             </form>
         </div>
     </section>
+    
     <section class="formulario">
     
         <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="formulario-de-producto" onsubmit="return validacion();">

@@ -5,7 +5,7 @@ class ModelUser():
     @classmethod
     def login(self, db, user):
         try:
-            cursor = db.connection.cursor()
+            cursor = db.cursor()
             sql = """ SELECT id, usuario, correo, contraseña FROM usuarios 
                     WHERE usuario = '{}' """.format(user.usuario)
             cursor.execute(sql)
@@ -22,7 +22,7 @@ class ModelUser():
     @classmethod
     def get_by_id(self, db, id):
         try:
-            cursor = db.connection.cursor()
+            cursor = db.cursor()
             sql = """ SELECT id, usuario, correo, contraseña FROM usuarios 
                     WHERE id = '{}' """.format(id)
             cursor.execute(sql)
@@ -40,11 +40,11 @@ class ModelUser():
     @classmethod
     def registro(self, db, user):
         try:
-            cursor = db.connection.cursor()
+            cursor = db.cursor()
             sql = """INSERT INTO usuarios (usuario, correo, contraseña) 
                      VALUES (%s, %s, %s)"""
             cursor.execute(sql, (user.usuario, user.correo, user.contraseña))
-            db.connection.commit()
+            db.commit()
             return user
         
         except Exception as ex:

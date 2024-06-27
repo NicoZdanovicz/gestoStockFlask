@@ -10,6 +10,25 @@
 
 <main>
 
+    <section class="formularioEditpadre">
+        <div id="formularioEdicion" style="display:none;">
+
+            <form action="{{ url_for('proveedores') }}" method="POST">
+                
+                <input type="hidden" id="edit_id" name="edit_id">
+                <label for="edit_nombre">Nombre:</label>
+                <input type="text" id="edit_nombre" name="edit_nombre" placeholder="Nombre de el proveedor">
+                <label for="edit_telefono">Telefono</label>
+                <input type="text" id="edit_telefono" name="edit_telefono" placeholder="Telefono">
+                <label for="edit_correo">Correo</label>
+                <input type="text" id="edit_correo" name="edit_correo" placeholder="Correo">
+                <button type="submit">Actualizar</button>
+                <button type="button" class="btn-cancelar" onclick="ocultarFormularioEdicion()">Cancelar</button>
+            </form>
+        </div>
+    </section>
+    
+
     <section class="formulario">
     
         <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="formulario-de-producto" onsubmit="return validacion();">
@@ -99,21 +118,7 @@
             </table>
         </div>
 
-        <div id="formularioEdicion" style="display:none;">
-
-            <form action="{{ url_for('proveedores') }}" method="POST">
-                
-                <input type="hidden" id="edit_id" name="edit_id">
-                <label for="edit_nombre">Nombre:</label>
-                <input type="text" id="edit_nombre" name="edit_nombre" placeholder="Nombre de el proveedor">
-                <label for="edit_telefono">Telefono</label>
-                <input type="text" id="edit_telefono" name="edit_telefono" placeholder="Telefono">
-                <label for="edit_correo">Correo</label>
-                <input type="text" id="edit_correo" name="edit_correo" placeholder="Correo">
-                <button type="submit">Actualizar</button>
-                <button type="button" class="btn-cancelar" onclick="ocultarFormularioEdicion()">Cancelar</button>
-            </form>
-        </div>
+       
 
     </div>
     

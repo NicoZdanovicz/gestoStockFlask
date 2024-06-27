@@ -215,7 +215,7 @@ footer a {
 }
 
 /* media query footer */
-@media (max-width: 1090px) {
+@media (max-width: 1120px) {
     footer {
         position: relative;
         display: block;

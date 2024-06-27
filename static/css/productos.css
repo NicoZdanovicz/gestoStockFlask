@@ -75,7 +75,7 @@ body{
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     z-index: 100;
-    margin-top: 10px;
+    margin-top: 1rem;
 }
 
 
@@ -222,17 +222,23 @@ table th, table td {
     text-align: left;
 }
 
+.formularioEditpadre{
+    display: flex;
+    justify-content: center; 
+    margin-top: 1rem;
+}
+
 /* Estilos para el formulario de edición */
 #formularioEdicion {
-    position: absolute;
+    z-index: 100;
     background-color: #1c1c36;
     padding: 20px;
-    
+    position: fixed;
     border-radius: 4px;
     border: 2px solid #303644;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: none;
-    z-index: 100; /* Asegura que esté por encima de la tabla */
+    /* Asegura que esté por encima de la tabla */
 }
 
 #formularioEdicion form {

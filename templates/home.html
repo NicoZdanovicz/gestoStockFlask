@@ -59,6 +59,7 @@
         <h2 style="display: none;">-</h2>
         <article class="titulo1">
             <h3>Cantidad de Ventas por Categoria</h3>
+            <div id="graficopastel" style=" text-align: center;color: gray;"></div>
                 <div id="progressBarsContainer">
                     <div style="display: none;" id="categorias">
                         {% if ventasPorCategoria %}
@@ -67,14 +68,15 @@
 
                         {% endif %}
                     </div>
+                    
                     <canvas id="miGrafico"></canvas>
                 </div>
         </article>
         <article class="titulo1">
             <h3>Ingresos por Categoria</h3>
+            <div id="graficobarra" style=" text-align: center; color: gray;"></div>
             <div class="grafico_ingresos">
                 <canvas id="miGraficoBarras"></canvas>
-
             </div>
         </article>
     </section>

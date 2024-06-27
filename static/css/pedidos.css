@@ -39,7 +39,6 @@ label {
 #nombre, #correo, #telefono, #proveedor, #cantidad, #categoria, #producto{
     margin-top: 8px;
     margin-bottom: 10px;
-    padding: 10px;
     border: none;
     border: 2px solid #303644;
     background-color: #d7d7e9;
@@ -52,7 +51,7 @@ label {
 
 #categoria, #producto, #proveedor{
     width: 358px;
-    height: 40px;
+    height: 35px;
 }
 
 #submit_pedidos {

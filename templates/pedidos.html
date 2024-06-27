@@ -43,7 +43,7 @@
         <label id="mensaje-telefono"></label>
 
         <label for="proveedor">Seleccione proveedor del producto:</label>
-        <select name="proveedor" id="proveedor" onchange="filtrarCategorias()">
+        <select name="proveedor" id="proveedor">
             <option value="">Seleccione una Opcion</option>
             
         </select>
@@ -67,8 +67,9 @@
         <input type="number" id="cantidad" name="cantidad" min="1">
         <label id="mensaje-cantidad"></label>
     
-        <input id="submit_pedidos" name="submit_pedidos" type="submit" value="Realizar pedido">
-        
+        <div style="text-align: center;">
+            <input id="submit_pedidos" name="submit_pedidos" type="submit" value="Realizar pedido">
+        </div>        
         </form>
     </section>
 </main>

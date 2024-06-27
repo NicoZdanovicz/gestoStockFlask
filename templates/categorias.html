@@ -9,7 +9,21 @@
 {% block body %}
 
 <main>
+    <section class="formularioEditpadre">
+        <div id="formularioEdicion" style="display:none;">
 
+            <form action="{{ url_for('categorias') }}" method="POST">
+                
+                <input type="hidden" id="edit_id" name="edit_id">
+                <label for="edit_nombre">Nombre:</label>
+                <input type="text" id="edit_nombre" name="edit_nombre" placeholder="Nombre de la categoría">
+                <label for="edit_proveedor">Proveedor</label>
+                <input type="text" id="edit_proveedor" name="edit_proveedor" placeholder="Proveedor">
+                <button type="submit">Actualizar</button>
+                <button type="button" class="btn-cancelar" onclick="ocultarFormularioEdicion()">Cancelar</button>
+            </form>
+        </div>
+    </section>
 
     <section class="formulario">
 
@@ -25,18 +39,6 @@
                 <input type="text" id="nombre" name="nombre" placeholder="Ingrese nombre de Categoria">
             </div>
             <label id="mensaje-categoria"></label>
-
-            <div class="input-container">
-                <i class="fa-solid fa-handshake"></i>
-                <label for="proveedor">Seleccione proveedor de productos:</label>
-                <select name="proveedor" id="proveedor">
-                <option value="">Seleccione una Opcion</option>
-                {% for prov in proveedor %}
-                <option value="{{ prov.nombre }}">{{ prov.nombre }}</option>
-                {% endfor %}
-            </select>
-            </div>
-            <label id="mensaje-seleccion-prov"></label>
 
             <input id="submit_cat" name="submit" type="submit" value="Agregar">
             
@@ -65,7 +67,6 @@
                 <thead >
                     <tr style="font-size: 16px; background-color: #1c1c36;opacity: 80%; color: aliceblue;">
                         <th>Nombre</th>
-                        <th>Proveedor</th>
                         <th>Acciones</th> 
                     
                     </tr>
@@ -76,7 +77,6 @@
                 {% for cat in categoria %}
                     <tr>
                         <td>{{ cat.nombre }}</td>
-                        <td>{{ cat.proveedor }}</td>
                         
                         <td>
                             <div style="display: flex; justify-content: space-around;">
@@ -100,20 +100,8 @@
                 
             </table>
         </div>
-
-        <div id="formularioEdicion" style="display:none;">
-
-            <form action="{{ url_for('categorias') }}" method="POST">
-                
-                <input type="hidden" id="edit_id" name="edit_id">
-                <label for="edit_nombre">Nombre:</label>
-                <input type="text" id="edit_nombre" name="edit_nombre" placeholder="Nombre de la categoría">
-                <label for="edit_proveedor">Proveedor</label>
-                <input type="text" id="edit_proveedor" name="edit_proveedor" placeholder="Proveedor">
-                <button type="submit">Actualizar</button>
-                <button type="button" class="btn-cancelar" onclick="ocultarFormularioEdicion()">Cancelar</button>
-            </form>
-        </div>
+        
+        
     </div>
     
 </main>

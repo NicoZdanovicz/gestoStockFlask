@@ -105,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
         selectCategoria.innerHTML = '<option value="">Seleccione una Categoria</option>';
         selectProducto.innerHTML = '<option value="">Seleccione un Producto</option>';
 
-        console.log('ProveedorSeleccionado:', selectProveedor);
         // Cargar opciones de proveedores
         Object.values(proveedores).forEach(proveedor => {
             const option = document.createElement('option');
@@ -114,39 +113,43 @@ document.addEventListener('DOMContentLoaded', function() {
             selectProveedor.appendChild(option);
         });
             
-        // Función para filtrar categorías basadas en el proveedor seleccionado
-        window.filtrarCategorias = function() {
-            const proveedorSeleccionado = selectProveedor.value;
-            selectCategoria.innerHTML = '<option value="">Seleccione una Categoria</option>';
-
-            for (const cat in categorias) {
-                if (categorias[cat] === proveedorSeleccionado) {
-                    const option = document.createElement('option');
-                    option.value = cat;
-                    option.text = cat;
-                    selectCategoria.appendChild(option);
-                }
-            }
-
-            // Limpiar productos cuando se cambia el proveedor
-            selectProducto.innerHTML = '<option value="">Seleccione un Producto</option>';
-        };
-
+        selectCategoria.innerHTML = '<option value="">Seleccione una Categoria</option>';
+    
+        // Cargar opciones de categorías
+        Object.values(categorias).forEach(categoria => {
+        const option = document.createElement('option');
+        option.value = categoria;
+        option.text = categoria;
+        selectCategoria.appendChild(option);
+        });
+    
+        // Limpiar productos cuando se cambia el proveedor
+        selectProducto.innerHTML = '<option value="">Seleccione un Producto</option>';
+      
+        
+        
         // Función para filtrar productos basados en el proveedor y la categoría seleccionados
         window.filtrarProductos = function() {
             const proveedorSeleccionado = selectProveedor.value;
             const categoriaSeleccionada = selectCategoria.value;
             selectProducto.innerHTML = '<option value="">Seleccione un Producto</option>';
-
-            for (const prod in productos) {
-                if (productos[prod].proveedor === proveedorSeleccionado && productos[prod].categoria === categoriaSeleccionada) {
-                    const option = document.createElement('option');
-                    option.value = prod;
-                    option.text = prod;
-                    selectProducto.appendChild(option);
-                }
-            }
+        
+            // Obtener los productos que coinciden con el proveedor y la categoría seleccionados
+            Object.keys(productos).forEach(prod => {
+                productos[prod].forEach(item => {
+                    if (item.proveedor === proveedorSeleccionado && item.categoria === categoriaSeleccionada) {
+                        const option = document.createElement('option');
+                        option.value = prod;
+                        option.text = prod;
+                        selectProducto.appendChild(option);
+                    }
+                });
+            });
         };
+        
+        
+        
+
     })
     .catch(error => console.error('Error al cargar datos:', error));
 });
