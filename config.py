@@ -11,9 +11,9 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = True
     MYSQL_HOST = 'zdano.mysql.pythonanywhere-services.com'
-    MYSQL_USER = 'zdano'
-    MYSQL_PASSWORD  = 'lordthering12'
-    MYSQL_DB = 'zdano$default'
+    MYSQL_USER = ''
+    MYSQL_PASSWORD  = ''
+    MYSQL_DB = '$default'
     
 config={
     'development': DevelopmentConfig,
